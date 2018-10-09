@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+
+config="#{ENV['HOME']}/.ln4sudo"
+
+if Process.uid == 0
+  puts 'ln4sudo must execute as a non-privileged user to get a user PATH environment first.'
+  exit 1
+end
+
+if ARGV == []
+  puts
+  puts 'ln4sudo - create a symbolic link in /sbin for easy sudo.'
+  puts
+  puts 'Usage: ln4sudo command...'
+  puts 
+  puts 'examples:'
+  puts '$ which gem'
+  puts '/usr/local/ruby2.5.1/bin/gem'
+  puts
+  puts '$ sudo gem install ...'
+  puts 'sudo: gem: command not found'
+  puts
+  puts '$ ln4sudo gem'
+  puts 'sudo ln -s /usr/local/ruby2.5.1/bin/gem /sbin'
+  puts
+  puts '$ sudo gem install ...'
+  puts
+  puts 'config:'
+  puts '$ ln4sudo init /usr/local/sbin'
+  puts 'change target directory to /usr/local/sbin'
+  puts
+  exit 1
+end
+
+if ARGV[0] == 'init' and FileTest.directory?(ARGV[1] || '')
+  open(config,"w") {|f| f.write(ARGV[1])}
+  puts "target directory changed to #{ARGV[1]}"
+  puts 'saved in ~/.ln4sudo'
+  exit
+end
+
+dir = open(config).read.strip if FileTest.exists?(config)
+dir = '/sbin' if dir == nil or dir == ''
+ARGV.each {|cmd|
+  fullpath = `which #{cmd}`.strip
+  if fullpath == ''
+    puts "#{cmd} not found."
+    next
+  end
+  sudo_cmd = "sudo ln -s #{fullpath} #{dir}"
+  puts sudo_cmd
+  print `#{sudo_cmd}`
+}
+
+
