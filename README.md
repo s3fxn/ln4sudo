@@ -28,7 +28,7 @@ change target directory to /usr/local/sbin
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ln4sudo.
+Bug reports and pull requests are welcome on GitHub at https://github.com/s3fxn/ln4sudo.
 
 ## License
 
