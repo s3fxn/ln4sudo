@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["s3fxn"]
   spec.email         = ["sssfxn@gmail.com"]
 
-  spec.summary       = %q{ln4sudo helps you create a symbolic link in /sbin.}
+  spec.summary       = %q{ln4sudo - create a symbolic link in /sbin for easy sudo.}
   spec.homepage      = "https://github.com/s3fxn/ln4sudo"
   spec.license       = "MIT"
 
