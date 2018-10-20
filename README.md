@@ -10,6 +10,10 @@ ln4sudo - create a symbolic link in /sbin for easy sudo.
 ## Usage
 
 ```
+ln4sudo [-f] command...
+
+-f  remove existing destination files
+
 $ which gem
 /usr/local/ruby2.5.1/bin/gem
 

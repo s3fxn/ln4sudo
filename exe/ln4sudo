@@ -11,7 +11,9 @@ if ARGV == []
   puts
   puts 'ln4sudo - create a symbolic link in /sbin for easy sudo.'
   puts
-  puts 'Usage: ln4sudo command...'
+  puts 'Usage: ln4sudo [-f] command...'
+  puts
+  puts '-f  remove existing destination files'
   puts 
   puts 'examples:'
   puts '$ which gem'
@@ -39,6 +41,13 @@ if ARGV[0] == 'init' and FileTest.directory?(ARGV[1] || '')
   exit
 end
 
+if ARGV.include?('-f')
+  force = 'f'
+  ARGV.delete('-f')
+else
+  force = ''
+end
+
 dir = open(config).read.strip if FileTest.exists?(config)
 dir = '/sbin' if dir == nil or dir == ''
 ARGV.each {|cmd|
@@ -47,7 +56,8 @@ ARGV.each {|cmd|
     puts "#{cmd} not found."
     next
   end
-  sudo_cmd = "sudo ln -s #{fullpath} #{dir}"
+  fullpath = File.readlink(fullpath) if FileTest.symlink?(fullpath)
+  sudo_cmd = "sudo ln -s#{force} #{fullpath} #{dir}"
   puts sudo_cmd
   print `#{sudo_cmd}`
 }
