@@ -6,6 +6,7 @@ ln4sudo - create a symbolic link in /sbin for easy sudo.
 ## Installation
 
     $ gem install ln4sudo
+    (you may need to run as root or through sudo.)
 
 ## Usage
 
